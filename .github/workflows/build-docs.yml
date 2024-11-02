@@ -22,15 +22,15 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Install WriterSide
+      - name: Clone WriterSide repository
         run: |
-          wget https://example.com/path/to/writerside.zip
-          unzip writerside.zip -d /path/to/install/location
-          echo "/path/to/install/location" >> $GITHUB_PATH
+          git clone https://github.com/YourUsername/writerside.git /path/to/writerside
+          cd /path/to/writerside
+          # Si WriterSide nécessite un build, exécutez les commandes nécessaires ici.
 
       - name: Build documentation using WriterSide
         run: |
-          writerside build
+          /path/to/writerside/writerside build
 
       - name: Save artifact with build results
         uses: actions/upload-artifact@v4
