@@ -18,16 +18,21 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Build docs using Writerside Docker builder
-        uses: JetBrains/writerside-github-action@v4
-        with:
-          instance: ${{ env.INSTANCE }}
-          artifact: ${{ env.ARTIFACT }}
+      - name: Install WriterSide
+        run: |
+          wget https://path/to/writerside.zip  # Mettez ici le bon chemin pour télécharger WriterSide
+          unzip writerside.zip -d /path/to/writerside  # Décompressez WriterSide dans le bon répertoire
+          cd /path/to/writerside
+          # Si WriterSide nécessite une installation ou un build supplémentaire, effectuez-le ici.
+
+      - name: Build documentation using WriterSide
+        run: |
+          /path/to/writerside/writerside build # Exécutez la commande pour construire la documentation
 
       - name: Save artifact with build results
         uses: actions/upload-artifact@v4
         with:
           name: docs
           path: |
-            artifacts/${{ env.ARTIFACT }}
+            /path/to/generated/docs/${{ env.ARTIFACT }}  # Chemin vers l'artefact généré
           retention-days: 7
