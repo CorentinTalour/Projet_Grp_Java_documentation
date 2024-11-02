@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE instance-profile
+        SYSTEM "https://resources.jetbrains.com/writerside/1.0/product-profile.dtd">
+
+<instance-profile id="rdvd"
+                 name="Réservations de vacances Documentation"
+                 start-page="Empty-MD-Topic.md">
+
+    <toc-element topic="Empty-MD-Topic.md"/>
+    <toc-element topic="API_Reference.md"/>
+    <toc-element topic="API_Reference2.md"/>
+    <toc-element topic="API_Reference3.md"/>
+    <toc-element topic="API_Reference5.md"/>
+    <toc-element topic="API_Reference4.md"/>
+    <toc-element topic="API_Reference6.md"/>
+</instance-profile>

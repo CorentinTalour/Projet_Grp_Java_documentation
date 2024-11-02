@@ -1,0 +1,262 @@
+openapi: "3.0.3"
+info:
+  title: "Projet_Grp_Java API"
+  description: "Projet_Grp_Java API"
+  version: "1.0.0"
+servers:
+  - url: "https://Projet_Grp_Java"
+paths:
+  /api/user/auth:
+    post:
+      summary: "Authentifier un utilisateur"
+      description: "Authentifie l'utilisateur avec les informations d'identification fournies."
+      operationId: "authUser"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AuthRequest"
+        required: true
+      responses:
+        "200":
+          description: "Authentification réussie"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+        "401":
+          description: "Échec de l'authentification en raison de mauvaises informations d'identification"
+
+        "500":
+          description: "Erreur interne du serveur"
+
+  /api/user:
+    get:
+      summary: "Récupérer tous les utilisateurs"
+      description: "Retourne une liste de tous les utilisateurs dans la base de données."
+      operationId: "getAllUsers"
+      responses:
+        "200":
+          description: "Récupération réussie des utilisateurs"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/UserResponse"
+              example:
+                - id: "9ea9bb37-1718-428b-9a4d-21a35501a414"
+                  name: "John Doe"
+                  username: "john_doe"
+                  mail: "john.doe@example.com"
+                  phone: "+1234567890"
+                  has_driving_licence: true
+                  admin: false
+                  companyId: "c6090658-5852-4a67-bf37-cabfcb108312"
+                - id: "d5bc4f45-60de-403d-ade1-815e4b095a61"
+                  name: "John Azer"
+                  username: "john_azer"
+                  mail: "john.azer@example.com"
+                  phone: "+12345615470"
+                  has_driving_licence: false
+                  admin: true
+                  companyId: "c6090658-5852-4a67-bf37-cabfcb108312"
+        "500":
+          description: "Erreur interne du serveur"
+
+    post:
+      summary: "Créer un nouvel utilisateur"
+      description: "Crée un nouvel utilisateur dans la base de données."
+      operationId: "createUser"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserRequest"
+        required: true
+      responses:
+        "201":
+          description: "Utilisateur créé avec succès"
+
+        "400":
+          description: "Données d'entrée invalides"
+
+        "500":
+          description: "Erreur interne du serveur"
+
+  /api/user/{id}:
+    get:
+      summary: "Récupérer un utilisateur par ID"
+      description: "Retourne un utilisateur identifié par son ID."
+      operationId: "getUserById"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "Récupération réussie de l'utilisateur"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+        "404":
+          description: "Utilisateur non trouvé"
+
+        "500":
+          description: "Erreur interne du serveur"
+
+    put:
+      summary: "Mettre à jour un utilisateur existant"
+      description: "Met à jour un utilisateur identifié par son ID."
+      operationId: "updateUser"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+        - name: "Authorization"
+          in: "header"
+          required: true
+          schema:
+            type: "string"
+          description: "Token Bearer pour l'authentification."
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserRequest"
+        required: true
+      responses:
+        "200":
+          description: "Utilisateur mis à jour avec succès"
+        "404":
+          description: "Utilisateur non trouvé"
+        "400":
+          description: "Données d'entrée invalides"
+        "500":
+          description: "Erreur interne du serveur"
+    delete:
+      summary: "Supprimer un utilisateur par ID"
+      description: "Supprime un utilisateur identifié par son ID."
+      operationId: "deleteUser"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+        - name: "Authorization"
+          in: "header"
+          required: true
+          schema:
+            type: "string"
+          description: "Token Bearer pour l'authentification."
+      responses:
+        "204":
+          description: "Utilisateur supprimé avec succès"
+        "404":
+          description: "Utilisateur non trouvé"
+        "500":
+          description: "Erreur interne du serveur"
+components:
+  schemas:
+    AuthRequest:
+      type: "object"
+      description: "Modèle de demande d'authentification d'un utilisateur. (Non nullable)"
+      properties:
+        username:
+          type: "string"
+          description: "Nom d'utilisateur de l'utilisateur. (Non nullable)"
+          example: "john_doe"
+        password:
+          type: "string"
+          description: "Mot de passe de l'utilisateur. (Non nullable)"
+          example: "password123"
+    AuthResponse:
+      type: "object"
+      description: "Réponse d'authentification contenant le statut et le token. (Non nullable)"
+      properties:
+        success:
+          type: "boolean"
+          description: "Indique si l'authentification a réussi. (Non nullable)"
+          example: true
+        token:
+          type: "string"
+          description: "Le token d'authentification généré. (Non nullable)"
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+    UserResponse:
+      type: "object"
+      description: "Modèle représentant un utilisateur dans la réponse. (Non nullable)"
+      properties:
+        id:
+          type: "string"
+          description: "Identifiant unique de l'utilisateur. (Non nullable)"
+          example: "1b4dfdee-b09f-4d0d-8548-bfaaff0e61ac"
+        name:
+          type: "string"
+          description: "Nom de l'utilisateur. (Non nullable)"
+          example: "John Doe"
+        username:
+          type: "string"
+          description: "Nom d'utilisateur de l'utilisateur. (Non nullable)"
+          example: "john_doe"
+        mail:
+          type: "string"
+          description: "Adresse e-mail de l'utilisateur. (Non nullable)"
+          example: "john.doe@example.com"
+        phone:
+          type: "string"
+          description: "Numéro de téléphone de l'utilisateur. (Non nullable)"
+          example: "06.12.59.87.89"
+        has_driving_licence:
+          type: "boolean"
+          description: "Indique si l'utilisateur possède un permis de conduire. (Non nullable)"
+          example: true
+        admin:
+          type: "boolean"
+          description: "Indique si l'utilisateur est un administrateur. (Non nullable)"
+          example: false
+        companyId:
+          type: "string"
+          description: "Identifiant de l'entreprise à laquelle l'utilisateur appartient. (Non nullable)"
+          example: "5559c3f9-1176-453c-99d8-b960bf507823"
+    UserRequest:
+      type: "object"
+      description: "Modèle de demande pour créer ou mettre à jour un utilisateur. (Non nullable)"
+      properties:
+        name:
+          type: "string"
+          description: "Nom de l'utilisateur. (Non nullable)"
+          example: "Jane Doe"
+        username:
+          type: "string"
+          description: "Nom d'utilisateur de l'utilisateur. (Non nullable)"
+          example: "jane_doe"
+        password:
+          type: "string"
+          description: "Mot de passe de l'utilisateur. (Non nullable)"
+          example: "mypassword456"
+        hasDrivingLicence:
+          type: "boolean"
+          description: "Indique si l'utilisateur doit avoir un permis de conduire. (Non nullable)"
+          example: false
+        mail:
+          type: "string"
+          description: "Adresse e-mail de l'utilisateur. (Non nullable)"
+          example: "jane.doe@example.com"
+        phone:
+          type: "string"
+          description: "Numéro de téléphone de l'utilisateur. (Non nullable)"
+          example: "07.89.54.12.21"
+        admin:
+          type: "boolean"
+          description: "Indique si l'utilisateur doit être un administrateur. (Non nullable)"
+          example: true
+        companyId:
+          type: "string"
+          description: "Identifiant de l'entreprise à laquelle l'utilisateur doit être associé. (Nullable)"
+          example: "78b29ecc-9cf0-4446-aaeb-5151a2b43e86"

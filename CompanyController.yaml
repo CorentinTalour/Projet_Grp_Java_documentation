@@ -1,0 +1,203 @@
+openapi: "3.0.3"
+info:
+  title: "Projet_Grp_Java API"
+  description: "Projet_Grp_Java API"
+  version: "1.0.0"
+servers:
+  - url: "https://Projet_Grp_Java"
+paths:
+  /api/company:
+    get:
+      summary: "Récupérer toutes les compagnies"
+      description: "Retourne une liste de toutes les compagnies dans la BDD"
+      operationId: "getAllCompanies"
+      parameters:
+        - name: "Authorization"
+          in: "header"
+          required: true
+          schema:
+            type: "string"
+          description: "Token Bearer pour l'authentification."
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/CompanyResponse"
+              example:
+                - nameAgency: "Air France"
+                  Id: "9982dfcc-ae9d-4726-a5d1-0785fca1cbf7"
+                  companyType:
+                    id: "d53f3d25-3311-4fe0-8c3f-3329fe3e3476"
+                    companyTypeName: "Compagnie aérienne"
+                - nameAgency: "British Airways"
+                  Id: "d031f385-1649-4cef-88c1-6ae6f356b771"
+                  companyType:
+                    id: "149ef740-3f49-4f0d-9dd2-b5c8d925e37f"
+                    companyTypeName: "Compagnie aérienne"
+        "500":
+          description: "Erreur interne du serveur"
+        "400":
+          description: "Demande invalide"
+
+    post:
+      summary: "Créer une nouvelle compagnie"
+      description: "Crée une nouvelle compagnie dans la BDD"
+      operationId: "createCompany"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CompanyRequest"
+            required: true
+        responses:
+          "201":
+            description: "Created"
+          "400":
+            description: "Demande invalide"
+          "500":
+            description: "Erreur interne du serveur"
+
+  /api/company/{id}:
+    get:
+      summary: "Récupérer une compagnie par ID"
+      description: "Retourne une seule compagnie identifiée par son ID"
+      operationId: "getCompanyById"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+        - name: "Authorization"
+          in: "header"
+          required: true
+          schema:
+            type: "string"
+          description: "Token Bearer pour l'authentification."
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CompanyResponse"
+              example:
+                nameAgency: "Air France"
+                Id: "aeabcddf-a91f-4871-a42b-2edbd8ec759f"
+                companyType:
+                  id: "6db632ad-284d-4eb9-9d23-962353c46849"
+                  companyTypeName: "Compagnie aérienne"
+        "404":
+          description: "Compagnie non trouvée"
+        "500":
+          description: "Erreur interne du serveur"
+    put:
+      summary: "Mettre à jour une compagnie existante"
+      description: "Met à jour une compagnie identifiée par son ID"
+      operationId: "updateCompany"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+        - name: "Authorization"
+          in: "header"
+          required: true
+          schema:
+            type: "string"
+          description: "Token Bearer pour l'authentification."
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CompanyRequest"
+            required: true
+        responses:
+          "200":
+            description: "OK"
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/CompanyResponse"
+                example:
+                  nameAgency: "British Airways"
+                  Id: "company-002"
+                  companyType:
+                    id: "type-001"
+                    companyTypeName: "Compagnie aérienne"
+          "404":
+            description: "Compagnie non trouvée"
+          "400":
+            description: "Demande invalide"
+          "500":
+            description: "Erreur interne du serveur"
+    delete:
+      summary: "Supprimer une compagnie par ID"
+      description: "Supprime une compagnie identifiée par son ID"
+      operationId: "deleteCompany"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+        - name: "Authorization"
+          in: "header"
+          required: true
+          schema:
+            type: "string"
+          description: "Token Bearer pour l'authentification."
+      responses:
+        "200":
+          description: "OK"
+        "404":
+          description: "Compagnie non trouvée"
+        "500":
+          description: "Erreur interne du serveur"
+components:
+  schemas:
+    CompanyType:
+      type: "object"
+      description: "Représente le type de société, qui définit la catégorie ou la classification de la société. (Non nullable)"
+      properties:
+        id:
+          type: "string"
+          description: "Identifiant unique du type de société. (Non nullable)"
+          example: "type-001"
+        companyTypeName:
+          type: "string"
+          description: "Nom du type de société, par exemple 'Transport', 'Logistique', etc. (Non nullable)"
+          example: "Compagnie aérienne"
+
+    CompanyResponse:
+      type: "object"
+      description: "Représente la réponse contenant les détails d'une société. (Non nullable)"
+      properties:
+        nameAgency:
+          type: "string"
+          description: "Nom de l'agence ou de la société. (Non nullable)"
+          example: "Air France"
+        Id:
+          type: "string"
+          description: "Identifiant unique de la société. (Non nullable)"
+          example: "f90eeb31-8ded-4ffe-8eb4-d16a89a4dd7d"
+        companyType:
+          $ref: "#/components/schemas/CompanyType"
+
+    CompanyRequest:
+      type: "object"
+      description: "Représente la requête pour créer ou mettre à jour une société. (Non nullable)"
+      properties:
+        nameAgency:
+          type: "string"
+          description: "Nom de l'agence ou de la société à créer ou à mettre à jour. (Non nullable)"
+          example: "Lufthansa"
+        companyTypeId:
+          type: "string"
+          description: "Identifiant du type de société associé à cette société. (Non nullable)"
+          example: "9b1c853d-ed08-4242-b573-f3ba80051741"

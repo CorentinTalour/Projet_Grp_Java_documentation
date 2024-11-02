@@ -1,0 +1,236 @@
+openapi: "3.0.3"
+info:
+  title: "Projet_Grp_Java API"
+  description: "Projet_Grp_Java API"
+  version: "1.0.0"
+servers:
+  - url: "https://Projet_Grp_Java"
+paths:
+  /api/hotel:
+    get:
+      summary: "Récupérer tous les hôtels"
+      description: "Retourne une liste de tous les hôtels dans la base de données."
+      operationId: "getAllHotels"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/HotelResponse"
+              example:
+                - id: "111c3422-8047-43ce-81c5-03a6ead0551c"
+                  nom: "Hôtel de Paris"
+                  mail: "contact@hoteldeparis.com"
+                  telephone: "01.23.45.67.89"
+                  ville: "Paris"
+                  adresse: "123 Rue de Rivoli, 75001 Paris, France"
+                  companyId: "79a8ca5a-3aab-4a45-871c-1a71b6fb063f"
+                - id: "8e3a1378-2af2-45a7-9d3e-f91a79f66f95"
+                  nom: "Hôtel de Londres"
+                  mail: "contact@hoteldelondres.com"
+                  telephone: "06.79.46.09.58"
+                  ville: "Londres"
+                  adresse: "456 Oxford St, W1D 1AP Londres, Royaume-Uni"
+                  companyId: "080a1c06-bf65-497c-97e6-9cd61ddf0820"
+        "500":
+          description: "Erreur interne du serveur"
+    post:
+      summary: "Créer un nouvel hôtel"
+      description: "Crée un nouvel hôtel dans la base de données."
+      operationId: "createHotel"
+      parameters:
+        - name: "Authorization"
+          in: "header"
+          required: true
+          schema:
+            type: "string"
+          description: "Token Bearer pour l'authentification."
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/HotelRequest"
+            required: true
+        responses:
+          "201":
+            description: "Hôtel créé avec succès"
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/HotelResponse"
+                example:
+                  id: "ec7930a1-ff1b-4972-8035-fa33300ddda4"
+                  nom: "Hôtel de Rome"
+                  mail: "contact@hotelderome.com"
+                  telephone: "06.12.34.56.78"
+                  ville: "Rome"
+                  adresse: "789 Via del Corso, 00186 Rome, Italie"
+                  companyId: "b869b4f5-a3b0-4009-acf1-7832ea627579"
+          "400":
+            description: "Données d'entrée invalides"
+          "500":
+            description: "Erreur interne du serveur"
+
+  /api/hotel/{id}:
+    get:
+      summary: "Récupérer un hôtel par ID"
+      description: "Retourne un hôtel identifié par son ID."
+      operationId: "getHotelById"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HotelResponse"
+              example:
+                id: "a075e97c-e910-433a-855e-24c17bcf1b6f"
+                nom: "Hôtel de Paris"
+                mail: "contact@hoteldeparis.com"
+                telephone: "01.23.45.67.89"
+                ville: "Paris"
+                adresse: "123 Rue de Rivoli, 75001 Paris, France"
+                companyId: "b5374ecc-5e46-4dbf-8572-074a980899d0"
+        "404":
+          description: "Hôtel non trouvé"
+        "500":
+          description: "Erreur interne du serveur"
+
+    put:
+      summary: "Mettre à jour un hôtel existant"
+      description: "Met à jour un hôtel identifié par son ID."
+      operationId: "updateHotel"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+        - name: "Authorization"
+          in: "header"
+          required: true
+          schema:
+            type: "string"
+          description: "Token Bearer pour l'authentification."
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/HotelRequest"
+            required: true
+      responses:
+        "200":
+          description: "Hôtel mis à jour avec succès"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HotelResponse"
+              example:
+                id: "529a44ba-587c-4677-9251-ce9b519d2b05"
+                nom: "Hôtel de Paris"
+                mail: "contact@hoteldeparis.com"
+                telephone: "01.23.45.67.89"
+                ville: "Paris"
+                adresse: "123 Rue de Rivoli, 75001 Paris, France"
+                companyId: "38d0bf3f-fc93-4087-b19e-88a52f4aa06b"
+        "404":
+          description: "Hôtel non trouvé"
+        "400":
+          description: "Données d'entrée invalides"
+        "500":
+          description: "Erreur interne du serveur"
+
+    delete:
+      summary: "Supprimer un hôtel par ID"
+      description: "Supprime un hôtel identifié par son ID."
+      operationId: "deleteHotel"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+        - name: "Authorization"
+          in: "header"
+          required: true
+          schema:
+            type: "string"
+          description: "Token Bearer pour l'authentification."
+      responses:
+        "204":
+          description: "Hôtel supprimé avec succès"
+        "404":
+          description: "Hôtel non trouvé"
+        "500":
+          description: "Erreur interne du serveur"
+
+components:
+  schemas:
+    HotelResponse:
+      type: "object"
+      properties:
+        id:
+          type: "string"
+          description: "Identifiant unique de l'hôtel. (Non nullable)"
+          example: "hotel-001"
+        nom:
+          type: "string"
+          description: "Nom de l'hôtel. (Non nullable)"
+          example: "Hôtel de Paris"
+        mail:
+          type: "string"
+          description: "Adresse e-mail de contact de l'hôtel. (Non nullable)"
+          example: "contact@hoteldeparis.com"
+        telephone:
+          type: "string"
+          description: "Numéro de téléphone de l'hôtel. (Non nullable)"
+          example: "+33 1 23 45 67 89"
+        ville:
+          type: "string"
+          description: "Ville où se situe l'hôtel. (Non nullable)"
+          example: "Paris"
+        adresse:
+          type: "string"
+          description: "Adresse complète de l'hôtel. (Non nullable)"
+          example: "123 Rue de Rivoli, 75001 Paris, France"
+        companyId:
+          type: "string"
+          description: "Identifiant de la société propriétaire de l'hôtel. (Non nullable)"
+          example: "company-001"
+
+    HotelRequest:
+      type: "object"
+      properties:
+        nom:
+          type: "string"
+          description: "Nom de l'hôtel à créer ou à mettre à jour. (Non nullable)"
+          example: "Hôtel de Rome"
+        mail:
+          type: "string"
+          description: "Adresse e-mail de contact de l'hôtel à créer ou à mettre à jour. (Non nullable)"
+          example: "contact@hotelderome.com"
+        telephone:
+          type: "string"
+          description: "Numéro de téléphone de l'hôtel à créer ou à mettre à jour. (Non nullable)"
+          example: "06.12.34.56.78"
+        ville:
+          type: "string"
+          description: "Ville où se situera l'hôtel à créer ou à mettre à jour. (Non nullable)"
+          example: "Rome"
+        adresse:
+          type: "string"
+          description: "Adresse complète de l'hôtel à créer ou à mettre à jour. (Non nullable)"
+          example: "789 Via del Corso, 00186 Rome, Italie"
+        companyId:
+          type: "string"
+          description: "Identifiant de la société propriétaire de l'hôtel à créer ou à mettre à jour. (Non nullable)"
+          example: "company-002"

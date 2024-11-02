@@ -1,0 +1,280 @@
+openapi: "3.0.3"
+info:
+  title: "Projet_Grp_Java API"
+  description: "Projet_Grp_Java API"
+  version: "1.0.0"
+servers:
+  - url: "https://Projet_Grp_Java"
+paths:
+  /api/car:
+    get:
+      summary: "Récupérer toutes les voitures"
+      description: "Retourne une liste de toutes les voitures dans la BDD"
+      operationId: "getAllCars"
+      responses:
+        "200":
+          description: "Récupération réussie des voitures"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/CarResponse"
+              example:
+                - id: "79fa913c-f06d-49af-bfe3-5d581a0a9f2d"
+                  carBrand: "Toyota"
+                  carModel: "Corolla"
+                  carDailyPrice: 45.99
+                  carStatus:
+                    id: "a1003010-e4af-4c19-a6f3-8539ef17f95d"
+                    carStatusName: "Disponible"
+                  company:
+                    id: "be299208-ba0e-477f-a6a7-d0714fe9e9fc"
+                    nameAgency: "Agence de Location A"
+                    companyType:
+                      id: "1"
+                      companyTypeName: "Location de voitures"
+                - id: "f09c1f5c-b0ab-4f3b-a4bb-ecafe84f6a87"
+                  carBrand: "Honda"
+                  carModel: "Civic"
+                  carDailyPrice: 55.50
+                  carStatus:
+                    id: "2"
+                    carStatusName: "Non disponible"
+                  company:
+                    id: "f32b7da2-c8b2-444a-b4b1-30e25e6b6c26"
+        "500":
+          description: "Erreur interne du serveur"
+
+    post:
+      summary: "Créer une nouvelle voiture"
+      description: "Crée une nouvelle voiture dans la BDD"
+      operationId: "createCar"
+      parameters:
+        - name: "Authorization"
+          in: "header"
+          required: true
+          schema:
+            type: "string"
+          description: "Token Bearer pour l'authentification."
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateOrUpdateCarRequest"
+            example:
+              carBrand: "Ford"
+              carModel: "Focus"
+              carDailyPrice: 40.00
+              carStatusId: "e1259686-cc52-46bb-9b1f-a00d1fda7d6a"
+              companyId: "9e5a4cc4-5270-42b2-a451-5598a119cd7e"
+      responses:
+        "201":
+          description: "Voiture créée avec succès"
+        "400":
+          description: "Données d'entrée invalides"
+        "500":
+          description: "Erreur interne du serveur"
+
+  /api/car/{id}:
+    get:
+      summary: "Récupérer une voiture par ID"
+      description: "Retourne une seule voiture identifiée par son ID"
+      operationId: "getCarById"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "Récupération réussie de la voiture"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CarByIdResponse"
+              example:
+                carBrand: "Toyota"
+                carModel: "Corolla"
+                carDailyPrice: 45.99
+                carStatus:
+                  id: "1"
+                  carStatusName: "Disponible"
+        "404":
+          description: "Voiture non trouvée"
+        "500":
+          description: "Erreur interne du serveur"
+
+    put:
+      summary: "Mettre à jour une voiture existante"
+      description: "Met à jour une voiture identifiée par son ID"
+      operationId: "updateCar"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+        - name: "Authorization"
+          in: "header"
+          required: true
+          schema:
+            type: "string"
+          description: "Token Bearer pour l'authentification."
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateOrUpdateCarRequest"
+            example:
+              carBrand: "Ford"
+              carModel: "Fiesta"
+              carDailyPrice: 37.50
+              carStatusId: "e2f94826-acf7-4e91-ad2f-c9829e1ac0be"
+              companyId: "83c54165-626c-4063-bcb8-2a68918f01ce"
+      responses:
+        "200":
+          description: "Voiture mise à jour avec succès"
+        "404":
+          description: "Voiture non trouvée"
+        "400":
+          description: "Données d'entrée invalides"
+        "500":
+          description: "Erreur interne du serveur"
+
+    delete:
+      summary: "Supprimer une voiture par ID"
+      description: "Supprime une voiture identifiée par son ID"
+      operationId: "deleteCar"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+        - name: "Authorization"
+          in: "header"
+          required: true
+          schema:
+            type: "string"
+          description: "Token Bearer pour l'authentification."
+      responses:
+        "204":
+          description: "Voiture supprimée avec succès"
+        "404":
+          description: "Voiture non trouvée"
+        "500":
+          description: "Erreur interne du serveur"
+
+components:
+  schemas:
+    CarStatus:
+      type: "object"
+      description: "Représente l'état d'une voiture dans le système."
+      properties:
+        id:
+          type: "string"
+          nullable: false
+          description: "Identifiant unique de l'état de la voiture. (Non nullable)"
+        carStatusName:
+          type: "string"
+          nullable: false
+          description: "Nom de l'état de la voiture (par exemple, 'Disponible', 'Non disponible'). (Non nullable)"
+    CompanyType:
+      type: "object"
+      description: "Représente le type d'une entreprise dans le système."
+      properties:
+        id:
+          type: "string"
+          nullable: false
+          description: "Identifiant unique du type d'entreprise. (Non nullable)"
+        companyTypeName:
+          type: "string"
+          nullable: false
+          description: "Nom du type d'entreprise (par exemple, 'Location de voitures'). (Non nullable)"
+    Company:
+      type: "object"
+      description: "Représente une entreprise qui possède des voitures dans le système."
+      properties:
+        id:
+          type: "string"
+          nullable: false
+          description: "Identifiant unique de l'entreprise. (Non nullable)"
+        nameAgency:
+          type: "string"
+          nullable: false
+          description: "Nom de l'agence de l'entreprise. (Non nullable)"
+        companyType:
+          $ref: "#/components/schemas/CompanyType"
+    CarResponse:
+      type: "object"
+      description: "Représente les détails d'une voiture dans la réponse de l'API."
+      properties:
+        id:
+          type: "string"
+          nullable: false
+          description: "Identifiant unique de la voiture. (Non nullable)"
+        carBrand:
+          type: "string"
+          nullable: false
+          description: "Marque de la voiture. (Non nullable)"
+        carModel:
+          type: "string"
+          nullable: false
+          description: "Modèle de la voiture. (Non nullable)"
+        carDailyPrice:
+          type: "number"
+          format: "double"
+          nullable: false
+          description: "Prix journalier de location de la voiture. (Non nullable)"
+        carStatus:
+          $ref: "#/components/schemas/CarStatus"
+        company:
+          $ref: "#/components/schemas/Company"
+    CarByIdResponse:
+      type: "object"
+      description: "Représente les détails d'une voiture retournée par son ID."
+      properties:
+        carBrand:
+          type: "string"
+          nullable: false
+          description: "Marque de la voiture. (Non nullable)"
+        carModel:
+          type: "string"
+          nullable: false
+          description: "Modèle de la voiture. (Non nullable)"
+        carDailyPrice:
+          type: "number"
+          format: "double"
+          nullable: false
+          description: "Prix journalier de location de la voiture. (Non nullable)"
+        carStatus:
+          $ref: "#/components/schemas/CarStatus"
+    CreateOrUpdateCarRequest:
+      type: "object"
+      description: "Requête pour créer ou mettre à jour une voiture."
+      properties:
+        carBrand:
+          type: "string"
+          nullable: false
+          description: "Marque de la voiture à créer ou à mettre à jour. (Non nullable)"
+        carModel:
+          type: "string"
+          nullable: true
+          description: "Modèle de la voiture à créer ou à mettre à jour. (Nullable)"
+        carDailyPrice:
+          type: "number"
+          format: "double"
+          nullable: false
+          description: "Prix journalier de la voiture à créer ou à mettre à jour. (Non nullable)"
+        carStatusId:
+          type: "string"
+          nullable: false
+          description: "Identifiant du statut de la voiture. (Non nullable)"
+        companyId:
+          type: "string"
+          nullable: false
+          description: "Identifiant de l'entreprise à laquelle la voiture appartient. (Non nullable)"

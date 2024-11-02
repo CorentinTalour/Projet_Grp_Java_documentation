@@ -1,0 +1,249 @@
+openapi: "3.0.3"
+info:
+  title: "Projet_Grp_Java API"
+  description: "Projet_Grp_Java API"
+  version: "1.0.0"
+servers:
+  - url: "https://Projet_Grp_Java"
+paths:
+  /api/bookings:
+    get:
+      summary: "Récupérer toutes les réservations"
+      description: "Retourne une liste de toutes les réservations dans la base de données."
+      operationId: "getAllBookings"
+      parameters:
+        - name: "Authorization"
+          in: "header"
+          required: true
+          schema:
+            type: "string"
+          description: "Token Bearer pour l'authentification."
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/BookingResponse"
+              example:
+                [
+                  {
+                    "id": "79fa913c-f06d-49af-bfe3-5d581a0a9f2d",
+                    "dateBegin": "2024-01-01 14:58:00.000000",
+                    "dateEnd": "2024-02-03 00:00:00.000000",
+                    "price": 350.5,
+                    "user_id": "dace3c3f-3af8-45fb-b944-a788542d9902",
+                    "hotel_id": "c7840f18-eb23-4947-aff9-4f35e991bed9",
+                    "plane_id": "8c2f30a7-830f-442b-97d1-f8762cb36e32",
+                    "car_id": "76b594aa-7500-4a7d-909e-799145d6c6c4"
+                  },
+                  {
+                    "id": "99c7236d-b230-4875-b4de-8e33118e6592",
+                    "dateBegin": "2024-11-01 14:53:00.000000",
+                    "dateEnd": "2024-11-02 00:00:00.000000",
+                    "price": 127.3,
+                    "user_id": "4faa970e-ae34-4151-93e0-331149a50efb",
+                    "hotel_id": "8fdca2b9-ce89-42cc-aeea-b721165a5469",
+                    "plane_id": "7e04d407-fc7b-449b-b960-9f68e9e7d8fc",
+                    "car_id": "b9b80230-daca-4f16-8ceb-5759d3e2e33f"
+                  }
+                ]
+        "500":
+          description: "Erreur interne du serveur."
+
+    post:
+      summary: "Créer une nouvelle réservation"
+      description: "Crée une nouvelle réservation dans la base de données."
+      operationId: "createBooking"
+      parameters:
+        - name: "Authorization"
+          in: "header"
+          required: true
+          schema:
+            type: "string"
+          description: "Token Bearer pour l'authentification."
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BookingRequest"
+            example:
+              dateBegin: "2023-11-15 15:12:00.000000"
+              dateEnd: "2023-06-20 15:12:00.000000"
+              price: 350.50
+              user_id: "26525e40-86ad-4a30-bcc4-1b5c3438af28"
+              hotel_id: "567b159e-642b-40ab-9923-10281b428617"
+              plane_id: "294f939f-f30d-4e40-9bf0-a14587913922"
+              car_id: "942d6e0a-4336-4404-8c4a-35e77f8a5ecf"
+        required: true
+      responses:
+        "201":
+          description: "Créé"
+        "400":
+          description: "Erreur de validation des données d'entrée."
+        "500":
+          description: "Erreur interne du serveur."
+
+  /api/bookings/{id}:
+    get:
+      summary: "Récupérer une réservation par ID"
+      description: "Retourne une réservation identifiée par son ID."
+      operationId: "getBookingById"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+        - name: "Authorization"
+          in: "header"
+          required: true
+          schema:
+            type: "string"
+          description: "Token Bearer pour l'authentification."
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BookingResponse"
+              example:
+                id: "77fa913c-f06d-49af-bfe3-5d581a0a9f2d"
+                dateBegin: "2024-03-07 15:12:00.000000"
+                dateEnd: "2024-03-13 15:12:00.000000"
+                price: 350.50
+                user_id: "d1a5d2cd-377a-4fa3-bb48-0257a7bdaf76"
+                hotel_id: "7cb5edbc-d6c3-43b6-8ebd-740646816f8f"
+                plane_id: "75bab305-311e-413b-a4a6-20f9d608e75b"
+                car_id: "2d366cc0-70ff-45a1-b7e1-42ad15a1250e"
+        "404":
+          description: "Réservation non trouvée."
+        "500":
+          description: "Erreur interne du serveur."
+
+    put:
+      summary: "Mettre à jour une réservation existante"
+      description: "Met à jour une réservation identifiée par son ID."
+      operationId: "updateBooking"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+        - name: "Authorization"
+          in: "header"
+          required: true
+          schema:
+            type: "string"
+          description: "Token Bearer pour l'authentification."
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BookingRequest"
+            example:
+              dateBegin: "2024-08-01 15:12:00.000000"
+              dateEnd: "2024-08-24 15:12:00.000000"
+              price: 350.50
+              user_id: "0b2dd10a-6360-433e-8d01-f088ac06d758"
+              hotel_id: "105af678-cece-45bc-9823-28d2fe5d535e"
+              plane_id: "0acd1f02-addb-4f34-8286-f6f163fafa19"
+              car_id: "441e08f1-6448-4633-be10-4f5910be0f1e"
+        required: true
+      responses:
+        "200":
+          description: "OK"
+        "400":
+          description: "Erreur de validation des données d'entrée."
+        "404":
+          description: "Réservation non trouvée."
+        "500":
+          description: "Erreur interne du serveur."
+
+    delete:
+      summary: "Supprimer une réservation par ID"
+      description: "Supprime une réservation identifiée par son ID."
+      operationId: "deleteBooking"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+        - name: "Authorization"
+          in: "header"
+          required: true
+          schema:
+            type: "string"
+          description: "Token Bearer pour l'authentification."
+      responses:
+        "204":
+          description: "Réservation supprimée avec succès."
+        "404":
+          description: "Réservation non trouvée."
+        "500":
+          description: "Erreur interne du serveur."
+
+components:
+  schemas:
+    BookingResponse:
+      type: "object"
+      properties:
+        id:
+          type: "string"
+          description: "Identifiant unique de la réservation. (Non nullable)"
+        dateBegin:
+          type: "string"
+          format: "date-time"
+          description: "Date et heure de début de la réservation au format ISO 8601. (Non nullable)."
+        dateEnd:
+          type: "string"
+          format: "date-time"
+          description: "Date et heure de fin de la réservation au format ISO 8601. (Non nullable)."
+        price:
+          type: "number"
+          format: "float"
+          description: "Prix total de la réservation. (Non nullable)."
+        user_id:
+          type: "string"
+          description: "Identifiant de l'utilisateur ayant effectué la réservation. (Non nullable)."
+        hotel_id:
+          type: "string"
+          description: "Identifiant de l'hôtel associé à la réservation. (Non nullable)."
+        plane_id:
+          type: "string"
+          description: "Identifiant de l'avion associé à la réservation, le cas échéant. (Non nullable)."
+        car_id:
+          type: "string"
+          description: "Identifiant de la voiture associée à la réservation, le cas échéant. (Non nullable)."
+    BookingRequest:
+      type: "object"
+      properties:
+        dateBegin:
+          type: "string"
+          format: "date-time"
+          description: "Date et heure de début de la réservation au format ISO 8601. (Non nullable)."
+        dateEnd:
+          type: "string"
+          format: "date-time"
+          description: "Date et heure de fin de la réservation au format ISO 8601. (Non nullable)."
+        price:
+          type: "number"
+          format: "float"
+          description: "Prix total de la réservation proposé par l'utilisateur. (Non nullable)."
+        user_id:
+          type: "string"
+          description: "Identifiant de l'utilisateur qui effectue la réservation. (Non nullable)."
+        hotel_id:
+          type: "string"
+          description: "Identifiant de l'hôtel que l'utilisateur souhaite réserver. (Nullable)."
+        plane_id:
+          type: "string"
+          description: "Identifiant de l'avion que l'utilisateur souhaite réserver, le cas échéant. (Nullable)."
+        car_id:
+          type: "string"
+          description: "Identifiant de la voiture que l'utilisateur souhaite réserver, le cas échéant. (Nullable)."

@@ -1,0 +1,296 @@
+openapi: "3.0.3"
+info:
+  title: "Projet_Grp_Java API"
+  description: "Projet_Grp_Java API"
+  version: "1.0.0"
+servers:
+  - url: "https://Projet_Grp_Java"
+paths:
+  /api/plane:
+    get:
+      summary: "Récupérer tous les avions"
+      description: "Retourne une liste de tous les avions dans la base de données."
+      operationId: "findAllPlanes"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/PlaneResponse"
+              example:
+                - id: "8493e9d8-97d0-482a-8808-f806d82ed293"
+                  departureAirport: "Paris Charles de Gaulle"
+                  arrivalAirport: "New York John F. Kennedy"
+                  planePrice: 499.99
+                  numberOfSeats: 180
+                  company:
+                    id: "3a079dca-77f3-49ce-8ce4-059e49734d3e"
+                    nameAgency: "Air France"
+                    companyType:
+                      id: "00af478d-05ec-4989-81f6-39e7faea8e33"
+                      companyTypeName: "Compagnie aérienne"
+                - id: "7e5adb90-511d-4d98-8ddf-aca62ee5efbf"
+                  departureAirport: "Londres Heathrow"
+                  arrivalAirport: "Tokyo Narita"
+                  planePrice: 899.50
+                  numberOfSeats: 200
+                  company:
+                    id: "2856f9ad-f01c-4637-86b6-6a536251ac2c"
+                    nameAgency: "British Airways"
+                    companyType:
+                      id: "703cc769-1c26-4abf-bd20-6a0560471af6"
+                      companyTypeName: "Compagnie aérienne"
+        "500":
+          description: "Erreur interne du serveur"
+
+  /api/plane/{id}:
+    get:
+      summary: "Récupérer un avion par ID"
+      description: "Retourne un avion identifié par son ID."
+      operationId: "findPlaneById"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          description: "Identifiant unique de l'avion"
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "Récupération réussie de l'avion"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PlaneByIdResponse"
+              example:
+                id: "b2ac5f60-8d35-4c2f-a558-9b899e743359"
+                departureAirport: "Paris Charles de Gaulle"
+                arrivalAirport: "New York John F. Kennedy"
+                planePrice: 499.99
+                numberOfSeats: 180
+                company:
+                  id: "11feda19-9832-45f7-934a-7056b5a3d839"
+                  nameAgency: "Air France"
+                  companyType:
+                    id: "54383fb0-96c1-4ff4-847c-d510ed1b6971"
+                    companyTypeName: "Compagnie aérienne"
+        "404":
+          description: "Avion non trouvé"
+        "500":
+          description: "Erreur interne du serveur"
+
+    post:
+      summary: "Créer un nouvel avion"
+      description: "Crée un nouvel avion dans la base de données."
+      operationId: "createPlane"
+      parameters:
+        - name: "Authorization"
+          in: "header"
+          required: true
+          schema:
+            type: "string"
+          description: "Token Bearer pour l'authentification."
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateOrUpdatePlaneRequest"
+            example:
+              departureAirport: "Paris Charles de Gaulle"
+              arrivalAirport: "New York John F. Kennedy"
+              planePrice: 499.99
+              numberOfSeats: 180
+              companyId: "f2a0ea7e-53ea-443d-adfa-a19fa13c7204"
+      responses:
+        "201":
+          description: "Avion créé avec succès"
+        "400":
+          description: "Données d'entrée invalides"
+        "500":
+          description: "Erreur interne du serveur"
+
+    put:
+      summary: "Mettre à jour un avion existant"
+      description: "Met à jour un avion identifié par son ID."
+      operationId: "updatePlane"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          description: "Identifiant unique de l'avion"
+          schema:
+            type: "string"
+        - name: "Authorization"
+          in: "header"
+          required: true
+          schema:
+            type: "string"
+          description: "Token Bearer pour l'authentification."
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateOrUpdatePlaneRequest"
+            example:
+              departureAirport: "Londres Heathrow"
+              arrivalAirport: "Tokyo Narita"
+              planePrice: 899.50
+              numberOfSeats: 200
+              companyId: "d185844b-ca35-471c-ae94-905986d9e429"
+      responses:
+        "200":
+          description: "Avion mis à jour avec succès"
+        "404":
+          description: "Avion non trouvé"
+        "400":
+          description: "Données d'entrée invalides"
+        "500":
+          description: "Erreur interne du serveur"
+
+    delete:
+      summary: "Supprimer un avion par ID"
+      description: "Supprime un avion identifié par son ID."
+      operationId: "deletePlaneById"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          description: "Identifiant unique de l'avion"
+          schema:
+            type: "string"
+        - name: "Authorization"
+          in: "header"
+          required: true
+          schema:
+            type: "string"
+          description: "Token Bearer pour l'authentification."
+      responses:
+        "204":
+          description: "Avion supprimé avec succès"
+        "404":
+          description: "Avion non trouvé"
+        "500":
+          description: "Erreur interne du serveur"
+
+components:
+  schemas:
+    CompanyType:
+      type: "object"
+      description: "Représente le type de société à laquelle appartient l'avion. (Non nullable)"
+      properties:
+        id:
+          type: "string"
+          description: "Identifiant unique du type de société. (Non nullable)"
+          example: "12e4e43b-49f2-4ca4-ae5d-cbd80aa01e1a"
+        companyTypeName:
+          type: "string"
+          description: "Nom du type de société, par exemple 'Compagnie aérienne', 'Charter', etc. (Non nullable)"
+          example: "Compagnie aérienne"
+
+    Company:
+      type: "object"
+      description: "Représente une compagnie aérienne. (Non nullable)"
+      properties:
+        id:
+          type: "string"
+          description: "Identifiant unique de la compagnie. (Non nullable)"
+          example: "aea0c5d7-d06a-4c56-a99e-24e7278670eb"
+        nameAgency:
+          type: "string"
+          description: "Nom de l'agence de la compagnie aérienne. (Non nullable)"
+          example: "Air France"
+        companyType:
+          $ref: "#/components/schemas/CompanyType"
+          description: "Type de la compagnie (ex. : régulière, charter). (Non nullable)"
+
+    PlaneResponse:
+      type: "object"
+      description: "Représente la réponse contenant les détails d'un avion. (Non nullable)"
+      properties:
+        id:
+          type: "string"
+          description: "Identifiant unique de l'avion. (Non nullable)"
+          example: "cffa3ca5-7823-433b-a2e0-dc05b6c57f7d"
+        departureAirport:
+          type: "string"
+          description: "Aéroport de départ de l'avion. (Non nullable)"
+          example: "Paris Charles de Gaulle"
+        arrivalAirport:
+          type: "string"
+          description: "Aéroport d'arrivée de l'avion. (Non nullable)"
+          example: "New York John F. Kennedy"
+        planePrice:
+          type: "number"
+          format: "double"
+          description: "Prix du billet d'avion. (Non nullable)"
+          example: 499.99
+        numberOfSeats:
+          type: "integer"
+          format: "int32"
+          description: "Nombre total de sièges disponibles dans l'avion. (Non nullable)"
+          example: 180
+        company:
+          $ref: "#/components/schemas/Company"
+          description: "Détails de la compagnie aérienne à laquelle appartient l'avion. (Non nullable)"
+
+    PlaneByIdResponse:
+      type: "object"
+      description: "Représente la réponse contenant les détails d'un avion par ID. (Non nullable)"
+      properties:
+        id:
+          type: "string"
+          description: "Identifiant unique de l'avion. (Non nullable)"
+          example: "39c61d71-05db-4812-ba68-e8f9c12f3f3e"
+        departureAirport:
+          type: "string"
+          description: "Aéroport de départ de l'avion. (Non nullable)"
+          example: "Paris Charles de Gaulle"
+        arrivalAirport:
+          type: "string"
+          description: "Aéroport d'arrivée de l'avion. (Non nullable)"
+          example: "New York John F. Kennedy"
+        planePrice:
+          type: "number"
+          format: "double"
+          description: "Prix du billet d'avion. (Non nullable)"
+          example: 499.99
+        numberOfSeats:
+          type: "integer"
+          format: "int32"
+          description: "Nombre total de sièges disponibles dans l'avion. (Non nullable)"
+          example: 180
+        company:
+          $ref: "#/components/schemas/Company"
+          description: "Détails de la compagnie aérienne à laquelle appartient l'avion. (Non nullable)"
+
+    CreateOrUpdatePlaneRequest:
+      type: "object"
+      description: "Requête pour créer ou mettre à jour un avion. (Non nullable)"
+      properties:
+        departureAirport:
+          type: "string"
+          description: "Aéroport de départ de l'avion. (Non nullable)"
+          example: "Londres Heathrow"
+        arrivalAirport:
+          type: "string"
+          description: "Aéroport d'arrivée de l'avion. (Non nullable)"
+          example: "Tokyo Narita"
+        planePrice:
+          type: "number"
+          format: "double"
+          description: "Prix du billet d'avion. (Non nullable)"
+          example: 899.50
+        numberOfSeats:
+          type: "integer"
+          format: "int32"
+          description: "Nombre total de sièges disponibles dans l'avion. (Non nullable)"
+          example: 200
+        companyId:
+          type: "string"
+          description: "Identifiant de la compagnie aérienne à laquelle appartient l'avion. (Non nullable)"
+          example: "05a43d6d-8b52-4e71-ba10-2cb0215fd5d1"

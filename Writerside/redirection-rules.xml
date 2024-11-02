@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE rules SYSTEM "https://resources.jetbrains.com/writerside/1.0/redirection-rules.dtd">
+<rules>
+    <!-- format is as follows
+    <rule id="<unique id>">
+        <accepts>page.html</accepts>
+    </rule>
+    -->
+    <rule id="2603e79e">
+        <description>Created after removal of "API Reference" from Instance Name</description>
+        <accepts>API_Reference2.html</accepts>
+    </rule>
+    <rule id="15e9fd30">
+        <description>Created after removal of "API Reference" from Instance Name</description>
+        <accepts>API_Reference.html</accepts>
+    </rule>
+    <rule id="2860effd">
+        <description>Created after removal of "API Reference" from Instance Name</description>
+        <accepts>API_Reference.html</accepts>
+    </rule>
+    <rule id="72ce056a">
+        <description>Created after removal of "API Reference" from Instance Name</description>
+        <accepts>API_Reference.html</accepts>
+    </rule>
+    <rule id="3ff3f13">
+        <description>Created after removal of "API Reference" from Instance Name</description>
+        <accepts>API_Reference.html</accepts>
+    </rule>
+    <rule id="1f03fed5">
+        <description>Created after removal of "API Reference" from Instance Name</description>
+        <accepts>API_Reference3.html</accepts>
+    </rule>
+    <rule id="7cc4461">
+        <description>Created after removal of "API Reference" from Instance Name</description>
+        <accepts>API_Reference.html</accepts>
+    </rule>
+    <rule id="117498e7">
+        <description>Created after removal of "API Reference" from Instance Name</description>
+        <accepts>API_Reference.html</accepts>
+    </rule>
+    <rule id="427c9baf">
+        <description>Created after removal of "API Reference" from Instance Name</description>
+        <accepts>API_Reference.html</accepts>
+    </rule>
+    <rule id="5aae2082">
+        <description>Created after removal of "API Reference" from Instance Name</description>
+        <accepts>API_Reference2.html</accepts>
+    </rule>
+    <rule id="4dab8fec">
+        <description>Created after removal of "API Reference" from Instance Name</description>
+        <accepts>API_Reference.html</accepts>
+    </rule>
+    <rule id="5c3aa02e">
+        <description>Created after removal of "API Reference" from Instance Name</description>
+        <accepts>API_Reference2.html</accepts>
+    </rule>
+    <rule id="253e5c">
+        <description>Created after removal of "API Reference" from Instance Name</description>
+        <accepts>API_Reference.html</accepts>
+    </rule>
+    <rule id="3da5b66">
+        <description><![CDATA[Created after removal of "<API_Reference2.md>" from Instance Name]]></description>
+        <accepts>API_Reference2.html</accepts>
+    </rule>
+    <rule id="40ff7980">
+        <description>Created after removal of "API Reference" from Instance Name</description>
+        <accepts>API_Reference2.html</accepts>
+    </rule>
+    <rule id="55cfd814">
+        <description>Created after removal of "API Reference" from Instance Name</description>
+        <accepts>API_Reference.html</accepts>
+    </rule>
+    <rule id="49e1f98c">
+        <description>Created after removal of "API Reference" from Instance Name</description>
+        <accepts>API_Reference.html</accepts>
+    </rule>
+    <rule id="3704e4fa">
+        <description>Created after removal of "API Reference" from Instance Name</description>
+        <accepts>API_Reference.html</accepts>
+    </rule>
+    <rule id="3250e44b">
+        <description>Created after removal of "API Reference" from Instance Name</description>
+        <accepts>API_Reference.html</accepts>
+    </rule>
+    <rule id="55e02b75">
+        <description>Created after removal of "API Reference" from Instance Name</description>
+        <accepts>API_Reference.html</accepts>
+    </rule>
+    <rule id="53dbc1d9">
+        <description>Created after removal of "Supprimer une voiture par ID" from Instance Name</description>
+        <accepts>Supprimer_une_voiture_par_ID.html</accepts>
+    </rule>
+    <rule id="746d19f1">
+        <description>Created after removal of "Mettre à jour une voiture existante" from Instance Name</description>
+        <accepts>Mettre_à_jour_une_voiture_existante.html</accepts>
+    </rule>
+    <rule id="3c0dd7b6">
+        <description>Created after removal of "Récupérer une voiture par ID" from Instance Name</description>
+        <accepts>Récupérer_une_voiture_par_ID.html</accepts>
+    </rule>
+    <rule id="663a2c82">
+        <description>Created after removal of "Créer une nouvelle voiture" from Instance Name</description>
+        <accepts>Créer_une_nouvelle_voiture.html</accepts>
+    </rule>
+    <rule id="5afa983a">
+        <description>Created after removal of "Récupérer toutes les voitures" from Instance Name</description>
+        <accepts>Récupérer_toutes_les_voitures.html</accepts>
+    </rule>
+    <rule id="359aebac">
+        <description>Created after removal of "API Reference" from Instance Name</description>
+        <accepts>API_Reference.html</accepts>
+    </rule>
+    <rule id="b10a45b">
+        <description>Created after removal of "API Reference" from Instance Name</description>
+        <accepts>API_Reference.html</accepts>
+    </rule>
+    <rule id="10faf54b">
+        <description>Created after removal of "API Reference" from Instance Name</description>
+        <accepts>API_Reference.html</accepts>
+    </rule>
+    <rule id="76aa34e7">
+        <description>Created after removal of "API Reference" from Instance Name</description>
+        <accepts>API_Reference2.html</accepts>
+    </rule>
+    <rule id="1d7cab64">
+        <description>Created after removal of "API Reference" from Instance Name</description>
+        <accepts>API_Reference.html</accepts>
+    </rule>
+    <rule id="438bcef4">
+        <description>Created after removal of "API Reference" from Instance Name</description>
+        <accepts>API_Reference4.html</accepts>
+    </rule>
+    <rule id="705558c4">
+        <description>Created after removal of "API Reference" from Instance Name</description>
+        <accepts>API_Reference4.html</accepts>
+    </rule>
+    <rule id="4d6e69c4">
+        <description>Created after removal of "test" from Instance Name</description>
+        <accepts>test.html</accepts>
+    </rule>
+    <rule id="2d9f323d">
+        <description>Created after removal of "Starter" from Réservations de vacances Documentation</description>
+        <accepts>starter.html</accepts>
+    </rule>
+</rules>
